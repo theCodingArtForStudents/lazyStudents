@@ -1,0 +1,6 @@
+[Bb]uild/
+.o
+.obj
+.a
+.s
+*.swp
