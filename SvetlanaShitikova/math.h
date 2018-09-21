@@ -1,9 +1,7 @@
 #ifndef MATH_H
 #define MATH_H
 
-
 // matrix
-
 
 struct matrix{
 	unsigned int raw;
@@ -15,7 +13,7 @@ struct matrix* init_matrix(int n, int m);
 struct matrix* init_square_matrix(int nm);
 
 struct matrix* fill_matrix(struct matrix* A);
-
+void free_matrix(struct matrix* A);
 // matrix math
 
 double determinant_M(const struct matrix* A);

@@ -2,6 +2,8 @@
 
 #include <malloc.h>
 #include <errno.h>
+#include <stdlib.h>
+#include <string.h>
 
 // matrix 
 
@@ -29,12 +31,12 @@ struct matrix* fill_item_matrix(struct matrix* A, double item,
 				unsigned int tokenN, unsigned int tokenM){
 
 	if( A == NULL ){
-                perr("fill_item_matrix:Matrix does not exist");
+                perror("fill_item_matrix: Matrix does not exist");
                 exit(1);
         }
 
 	if( tokenN > A->raw || tokenM > A->col ){
-		perror("Invalid token");
+		perror("fill_item_matrix: Invalid token");
 		exit( 2000 );
 	}
 
@@ -43,20 +45,36 @@ struct matrix* fill_item_matrix(struct matrix* A, double item,
 	return A;
 }
 
-struct matrix* minor_matrix(struct matrix* A, unsigned int n, unsigned int m){
+void free_matrix(struct matrix* A){
+
+	if( A == NULL)
+		return;
+	else if( A->item == NULL){
+		free(A);
+	}else{
+		for(int i = 0; i < A->raw; i++){
+			if( A->item[i] != NULL)
+				free( A->item[i]);
+		}
+	}
+	return;
+}
+// matrix math
+
+struct matrix* minor_matrix(const struct matrix* A, unsigned int n, unsigned int m){
 
 	if( A == NULL ){
-                perr("minor_matrix:Matrix does not exist");
+                perror("minor_matrix: Matrix does not exist");
                 exit(1);
         }
 
 	if( A->raw != A->col ){
-		perr("minor_matrix: Matrix does not square");
+		perror("minor_matrix: Matrix does not square");
 		exit(2020);
 	}
 
         if( n > A->raw || m > A->col ){
-                perror("minor_matrix:Invalid token");
+                perror("minor_matrix: Invalid token");
                 exit( 2001 );
         }
 
@@ -77,16 +95,13 @@ struct matrix* minor_matrix(struct matrix* A, unsigned int n, unsigned int m){
 		}
 	}
 
-        return minor;
+    return minor;
 }
-
-
-// matrix math
 
 double determinant_M(const struct matrix* A){
 
 	if( A == NULL ){
-                perr("determinant_M: Matrix does not exist");
+                perror("determinant_M: Matrix does not exist");
                 exit(1);
         }
 
@@ -97,7 +112,7 @@ double determinant_M(const struct matrix* A){
 		return A->item[0][0];
 	else
 	if( A->raw == 2 )
-		return A->item[0][0] * A->item[1][1] - A-item[1][0] * A->item[0][1];
+		return A->item[0][0] * A->item[1][1] - A->item[1][0] * A->item[0][1];
 	else if( A->raw > 2 ){
 		for(int i = 0; i < A->raw; i++){
 			struct matrix* minor = minor_matrix( A, i, 0 );
@@ -106,10 +121,10 @@ double determinant_M(const struct matrix* A){
 
 			k *= -1;
 
-			free( minor );
+			free_matrix( minor );
 		}
 	}else{
-		perr("determinant_M: Invalid matrix");
+		perror("determinant_M: Invalid matrix");
 		exit(2);
 	}
 
@@ -117,15 +132,15 @@ double determinant_M(const struct matrix* A){
 }
 
 struct matrix* add_M(const struct matrix* A, const struct matrix* B){
+	
 	if( A == NULL || B == NULL ){
-        	perr("add_M:Matrix does not exist");
-        	exit(1);
-        }
+        perror("add_M: Matrix does not exist");
+        exit(1);
+    }
 
 	if( A->raw != B->raw || A->col != B->col ){
-		perr("add_M:Incorrect size of matrices");
-                exit(2011);
-
+		perror("add_M: Incorrect size of matrices");
+        exit(2011);
 	}
 
 	struct matrix* RES = init_matrix(A->raw, B->col);
@@ -140,38 +155,39 @@ struct matrix* add_M(const struct matrix* A, const struct matrix* B){
 }
 
 struct matrix* sub_M(const struct matrix* A, const struct matrix* B){
-        if( A == NULL || B == NULL ){
-                perr("sub_M:Matrix does not exist");
-                exit(1);
-        }
 
-        if( A->raw != B->raw || A->col != B->col ){
-                perr("sub_M:Incorrect size of matrices");
-                exit(2012);
+	if( A == NULL || B == NULL ){
+		perror("sub_M: Matrix does not exist");
+		exit(1);
+	}
 
-        }
+	if( A->raw != B->raw || A->col != B->col ){
+		perror("sub_M:Incorrect size of matrices");
+		exit(2012);
 
-        struct matrix* RES = init_matrix(A->raw, B->col);
+	}
 
-        for(int i = 0; i < A->raw; i++){
-                for(int j = 0; j < A->col; j++){
-                        RES->item[i][j] = A->item[i][j] - B->item[i][j];
-                }
-        }
+	struct matrix* RES = init_matrix(A->raw, B->col);
 
-        return RES;
+	for(int i = 0; i < A->raw; i++){
+		for(int j = 0; j < A->col; j++){
+			RES->item[i][j] = A->item[i][j] - B->item[i][j];
+		}
+	}
+
+	return RES;
 }
 
 
 struct matrix* mul_M(const struct matrix* A, const struct matrix* B){
 
 	if( A == NULL || B == NULL ){
-		perr("mul_M:Matrix does not exist");
+		perror("mul_M:Matrix does not exist");
 		exit(1);
 	}
 
 	if(A->raw !=  B->col){
-		perr("mul_M:Incorrect size of matrices");
+		perror("mul_M:Incorrect size of matrices");
 		exit(2013);
 	}
 
@@ -188,7 +204,7 @@ struct matrix* mul_M(const struct matrix* A, const struct matrix* B){
 struct matrix* mul_d_M(const struct matrix* A, const double b){
 
 	if( A == NULL ){
-                perr("mul_d_M:Matrix does not exist");
+                perror("mul_d_M:Matrix does not exist");
                 exit(1);
         }
 
@@ -206,12 +222,12 @@ struct matrix* mul_d_M(const struct matrix* A, const double b){
 struct matrix* div_M(const struct matrix* A, const struct matrix* B){
 
         if( A == NULL || B == NULL ){
-                perr("div_M:Matrix does not exist");
+                perror("div_M:Matrix does not exist");
                 exit(1);
         }
 
         if(A->raw !=  B->col){
-                perr("div_M:Incorrect size of matrices");
+                perror("div_M:Incorrect size of matrices");
                 exit(2014);
         }
 
@@ -238,14 +254,17 @@ char* toString_matrix(const struct matrix* A){
 
 	for(int i = 0; i < A->raw; i++){
 		for(int j = 0; j < A->col; j++){
-			sprintf(c_matrix, "%.4f ", A->item[i][j]);
+			char buf[16];
+			sprintf(buf, "%.4f ", A->item[i][j]);
+			strcat(c_matrix, buf);
 		}
-		sprintf(c_matrix, "\n");
+		strcat(c_matrix, "\n");
 	}
 
 	return c_matrix;
 }
 
-void print_matrix(const struct matrix*){
-	printf("%s", sprintf(matrix));
+void print_matrix(const struct matrix* A){
+	char *str = toString_matrix( A ); 
+	printf("%s", str);
 }
