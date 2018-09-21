@@ -3,22 +3,6 @@
 #include <malloc.h>
 #include <errno.h>
 
-int n_add(int a, int b){
-	return a + b;
-}
-int n_sub(int a, int b){
-	return a - b;
-}
-int n_mul(int a, int b){
-	return a * b;
-}
-int n_div(int a, int b){
-	return a / b;
-}
-int n_mod(int a, int b){
-	return a % b;
-}
-
 // matrix 
 
 struct matrix* init_matrix(int n, int m){
