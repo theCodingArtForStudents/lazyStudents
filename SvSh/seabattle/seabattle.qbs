@@ -13,5 +13,7 @@ Project {
             fileTagsFilter: "application"
             qbs.install: true
         }
+
+        cpp.cLanguageVersion: "c11";
     }
 }

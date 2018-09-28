@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h> //rand()
 #include <string.h> //memcpy()
+#include <malloc.h>
 #include <time.h>
 
 char matrix[13][29];
@@ -39,6 +40,7 @@ void enemy_set (int);
 int enemy_place (int, int, int, int);
 int place (int, int, int, int);
 void player_coords (int *, int *);
+int symbol_to_coord(char c);
 int simple_move (void);
 int enemy_simple_move (void);
 void init_map (void);
@@ -136,13 +138,62 @@ void main (void)
 // получаем с клавиатуры координаты хода
 void player_coords (int * a, int * b)
 {
+    char *str = malloc(sizeof(char) * 4);
     do {
-        printf("\n Введите строку : "); scanf("%i", b);
-        printf(" Введите столбец: "); scanf("%i", a);
+//        printf("\n Введите строку : "); scanf("%i", b);
+//        printf(" Введите столбец: "); scanf("%i", a);
+        printf("\nenter coord: "); scanf("%s", str);
+        if( (str[0] >= '0') && (str[0] <= '9')){
+            *a = atoi(&str[0]);
+            *b = symbol_to_coord(str[1]);
+        }else if((str[1] >= '0') && (str[1] <= '9')){
+            *a = atoi(&str[1]);
+            *b = symbol_to_coord(str[0]);
+        }
         // Если пользователь ввел кривые координаты, его просят ввессти другие
         if (*a < 0 || *b < 0 || *a > 9 || *b > 9)
             printf ("\n Ошибка ввода. Введите другие координаты.\n");
     } while (*a < 0 || *b < 0 || *a > 9 || *b > 9);
+    free(str);
+}
+// ------------------------------------------------------------
+int symbol_to_coord(char c)
+{
+    switch (c) {
+    case 'a':
+    case 'A':
+        return 0;
+    case 'B':
+    case 'b':
+        return 1;
+    case 'C':
+    case 'c':
+        return 2;
+    case 'd':
+    case 'D':
+        return 3;
+    case 'E':
+    case 'e':
+        return 4;
+    case 'F':
+    case 'f':
+        return 5;
+    case 'G':
+    case 'g':
+        return 6;
+    case 'H':
+    case 'h':
+        return 7;
+    case 'I':
+    case 'i':
+        return 8;
+    case 'J':
+    case 'j':
+        return 9;
+
+    default:
+        return -1;
+    }
 }
 // ------------------------------------------------------------
 // Функция, котоая отвечает за ходы игрока
