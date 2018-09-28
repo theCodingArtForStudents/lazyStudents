@@ -7,7 +7,7 @@
 char matrix[13][29];
 char enemy_matrix[13][29];
 char map[13][29] = {
-    "  abcdefghijk     abcdefghijk ",
+    "  abcdefghij      abcdefghij ",
     " #----------#    #----------#",
     "0|       ",
     "1|       ",
@@ -21,7 +21,7 @@ char map[13][29] = {
     "9|       ",
     " #----------#    #----------#" };
 char enemy_map[13][29] = {
-    "  abcdefghijk     abcdefghijk ",
+    "  abcdefghij      abcdefghij ",
     " #----------#    #----------#",
     "0|       ",
     "1|       ",
