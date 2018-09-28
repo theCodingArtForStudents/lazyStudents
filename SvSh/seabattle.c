@@ -53,10 +53,10 @@ void main (void)
     int i,j,m=0,n=0,r=3;
     float k=0.0;
     
-    printf ("\n Добро подаловать в игру Морской бой! \n");
-    printf ("\n Вы будете играть против компьютера. \n");
-    printf ("\n Не забывайте: удача улыбается лишь храбрым. \n");
-    printf ("\n Свистать всех наверх. Мы начинаем \n");
+    printf ("\n Wellcame to the Sea battle game! \n");
+    printf ("\n You will playing whit computer. \n");
+//    printf ("\n Не забывайте: удача улыбается лишь храбрым. \n");
+//    printf ("\n Свистать всех наверх. Мы начинаем \n");
     /* Инициализация и последующее отображение игрового поля */
     init_map();
     
@@ -95,7 +95,7 @@ void main (void)
             // что соответствует условию выхода из цикла
             if (enemy_defeat == 20 )
             {
-                printf("\n Пользователь выиграл!\n");
+                printf("\n Player wins!\n");
                 r = 0;
                 break;
             }
@@ -125,7 +125,7 @@ void main (void)
             // что соответствует условию выхода из цикла
             if (player_defeat == 20 )
             {
-                printf("\n Компьютер выиграл!\n");
+                printf("\n Player fails!\n");
                 r = 0;
                 break;
             }
@@ -140,9 +140,7 @@ void player_coords (int * a, int * b)
 {
     char *str = malloc(sizeof(char) * 4);
     do {
-//        printf("\n Введите строку : "); scanf("%i", b);
-//        printf(" Введите столбец: "); scanf("%i", a);
-        printf("\nenter coord: "); scanf("%s", str);
+        printf("\n Enter coord: "); scanf("%s", str);
         if( (str[0] >= '0') && (str[0] <= '9')){
             *a = atoi(&str[0]);
             *b = symbol_to_coord(str[1]);
@@ -152,7 +150,7 @@ void player_coords (int * a, int * b)
         }
         // Если пользователь ввел кривые координаты, его просят ввессти другие
         if (*a < 0 || *b < 0 || *a > 9 || *b > 9)
-            printf ("\n Ошибка ввода. Введите другие координаты.\n");
+            printf ("\n Entering fail. Enter some other coords.\n");
     } while (*a < 0 || *b < 0 || *a > 9 || *b > 9);
     free(str);
 }
@@ -213,7 +211,7 @@ int simple_move (void)
     // как на игровое поле противника, так и на игровое поле игрока
     if (enemy_matrix[s][c] == '*' || enemy_matrix[s][c] == '0')
     {
-        printf("\n Вы уже стреляли в данную точку. Измените координаты \n");
+        printf("\n You was shoot to that point. Shift coords! \n");
         player_coords(&x, &y);
     }
     if (enemy_matrix[s][c] == 'X')
