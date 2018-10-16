@@ -27,15 +27,15 @@ int main(int argc, char** argv)
         */
 
 	int div19count = 0;
-	int sumOfEvery30th = 0;
+	int sumOfEvery50th = 0;
 
 	for( int i = 0; i < 200; i++){
 		if( a[i] % 19 == 0 ){ // if item is dividend for 19 
 			div19count++; // increment this counter
 		}
 			// the items of array numbers from 0, them 30-th item numbers as 29
-		if( i % 29 == 0 ){ // if i equals 29*n 
-			sumOfEvery30th += a[i]; // this item of the array adds to summ of 
+		if( i % 49 == 0 ){ // if i equals 29*n 
+			sumOfEvery50th += a[i]; // this item of the array adds to summ of 
 		}
 	}
 	int buf;
@@ -57,9 +57,11 @@ int main(int argc, char** argv)
 		}
 	}
 
-	printf(" the maximum item: %d " \
+	printf(" the minimum item: %d " \
 		   "\n count of items are divides on 19: %d " \
-		   "\n sum of every 30th: %d\n", a[199], div19count, sumOfEvery30th);
+		   "\n sum of every 50th: %d\n" \
+		   "\n item 100: %d\n", a[0], div19count
+		   					, sumOfEvery50th, a[100]);
 
 	printf("sorted array:\n");
 
