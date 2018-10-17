@@ -25,7 +25,7 @@ int main(int argc, char** argv)
 	/* 
         Здесь вставляйте свой код! 
         */
-
+////////////////////
 	int div19count = 0;
 	int sumOfEvery50th = 0;
 
@@ -73,25 +73,74 @@ int main(int argc, char** argv)
 
 //////////////////////////////////////////////////////////
 
-  	// int b[100][100] = {0}; /* инициализируем нулями */
+  	int b[100][100] = {0}; /* инициализируем нулями */
 	
 	/* Задаем начальное значение в генераторе случайных чисел */
-	// srand(666);
+	srand(666);
 	 
 	/* 
         Генерируем массив из случайных чисел в диапазоне 
 		[-500; 499] 
 	*/
 		 
-	// for (int i = 0; i<100; i++){
-	// 	for (int j = 0; j<100; j++){
-	// 		a[i][j] = rand()%1000 - 500;
-	// 	}
-	// }
+	for (int i = 0; i<100; i++){
+		for (int j = 0; j<100; j++){
+			b[i][j] = rand()%1000 - 500;
+		}
+	}
 
         /* 
         Здесь вставляйте свой код! 
         */
+
+	int min = b[0][0];
+	int lastMinNum_I = 0,
+		lastMinNum_j = 0;
+
+	int sumOf_sideDiog = 0;
+
+	swap = 0;
+	array_size = 100;
+
+	for (int i = 0; i < array_size; ++i){
+		for (int j = 0; j < array_size; ++j)
+		{
+			if( i + 1 != array_size && b[i][j] > b[i+1][j]){
+				lastMinNum_I = i+1;
+				lastMinNum_j = j;
+				swap = 1;
+			}				
+			else if(j + 1 != array_size && b[i][j] > b[i][j+1]){
+				lastMinNum_I = i;
+				lastMinNum_j = j+1;
+				swap = 1;
+			}
+			else if (i + 1 != array_size 
+					 && j + 1 != array_size 
+					 && b[i][j] > b[i+1][j+1] 
+					){
+				
+				lastMinNum_I = i+1;
+				lastMinNum_j = j+1;	
+				swap = 1;
+			}
+
+			if (i == array_size && j == array_size && swap == 1){
+				swap = 0;
+				i = 0;
+				j = 0;
+			}
+
+			if( i == array_size - 1 - j ){
+
+				sumOf_sideDiog += b[i][j];
+				
+			}
+		}
+	}
+
+	cout << "minimum item num: " << lastMinNum_I << "; " << lastMinNum_j << endl
+		 << "summ: " << sumOf_sideDiog << endl;
 
 	system("Pause");
 	return 0;
