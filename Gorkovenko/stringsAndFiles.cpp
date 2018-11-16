@@ -36,9 +36,19 @@ int main(int argc, char** argv) {
     			if( strcmp(pch, "dog") == 0){
     				count ++;                			
     			}
-    			if( strspn( pch, "i") >= 2 ){
-    				countGl++;
-    			}
+    			
+    			int cnt=0;
+				char* p=strstr(pch, "i");
+				do
+				{
+				   if(p != NULL)
+				      cnt++;
+				   p = strstr( p+1, "i");
+				}while( p != NULL );
+
+				if( cnt >= 2 ){
+					countGl++;
+				}
 
     			pch = strtok (NULL, delimiters); /* считываем следующее слово */
     		}
